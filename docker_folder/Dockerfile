@@ -27,7 +27,7 @@ RUN sudo apt install -y ros-noetic-desktop-full
 
 # GS-ICP SLAM
 WORKDIR /home
-RUN git clone --recursive https://github.com/Lab-of-AI-and-Robotics/GS_ICP_SLAM.git
+RUN git clone --recursive https://github.com/gloryhry/GS_ICP_SLAM.git
 
 ## Dependency
 RUN echo "export CUDA_HOME=/usr/local/cuda && export PATH=/usr/local/cuda-11.8/bin:$PATH && LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:/lib64:$LD_LIBRARY_PATH" >> ~/.bashrc
@@ -44,7 +44,7 @@ WORKDIR /home/GS_ICP_SLAM/submodules/fast_gicp
 RUN mkdir build
 WORKDIR /home/GS_ICP_SLAM/submodules/fast_gicp/build
 RUN cmake ..
-RUN make -j4
+RUN make -j
 WORKDIR /home/GS_ICP_SLAM/submodules/fast_gicp
 RUN python setup.py install --user
 
@@ -72,7 +72,7 @@ WORKDIR /home/opencv/opencv-4.5.5
 RUN mkdir build
 WORKDIR /home/opencv/opencv-4.5.5/build
 RUN cmake -D OPENCV_EXTRA_MODULES_PATH=/home/opencv/opencv_contrib-4.5.5/modules ..
-RUN make -j4
+RUN make -j
 RUN sudo make install
 
 #### embree 3.0
@@ -83,10 +83,10 @@ WORKDIR /home/embree-3.0.0
 RUN mkdir build
 WORKDIR /home/embree-3.0.0/build
 RUN cmake -D EMBREE_ISPC_SUPPORT=False ..
-RUN make -j4
+RUN make -j
 RUN sudo make install
 
 ### build / install
 WORKDIR /home/GS_ICP_SLAM/SIBR_viewers
 RUN cmake -Bbuild . -DCMAKE_BUILD_TYPE=Release
-RUN cmake --build build -j4 --target install
+RUN cmake --build build -j --target install
